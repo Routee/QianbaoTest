@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="MainThem" parent="AppTheme">
+        <item name="actionBarTheme">@style/Theme.AppCompat.Light.NoActionBar</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+</resources>

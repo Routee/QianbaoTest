@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.routee.qianbaotest.widget.RouteeAppBarLayout
+        android:id="@+id/r_Tb"
+        android:layout_width="match_parent"
+        app:fitsSystemWindows="true"
+        app:image_bg="@mipmap/image_bg_toolbar"
+        android:layout_height="256dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+</android.support.design.widget.CoordinatorLayout>
