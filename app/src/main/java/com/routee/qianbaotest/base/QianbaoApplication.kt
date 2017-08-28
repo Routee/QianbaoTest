@@ -16,7 +16,7 @@ class QianbaoApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Global.context = this
+        Global.sContext = this
         SophixManager.getInstance().queryAndLoadNewPatch()
     }
 

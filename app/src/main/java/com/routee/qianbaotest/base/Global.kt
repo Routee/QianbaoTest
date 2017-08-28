@@ -7,6 +7,8 @@ import android.content.Context
  * description: ${cusor}
  */
 
-object Global {
-    var context: Context? = null
+class Global {
+    companion object {
+        var sContext: Context? = null
+    }
 }
