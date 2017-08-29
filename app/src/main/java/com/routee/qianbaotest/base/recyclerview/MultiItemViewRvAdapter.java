@@ -11,7 +11,7 @@ import java.util.List;
  * description: ${cusor}
  */
 
-public abstract class MultiItemViewRvAdapter<T> extends BaseRecyclerViewAdapter {
+public abstract class MultiItemViewRvAdapter<T> extends BaseRvAdapter {
     private MultiItemTypeHelper mMultiItemTypeHelper;
 
     public MultiItemViewRvAdapter

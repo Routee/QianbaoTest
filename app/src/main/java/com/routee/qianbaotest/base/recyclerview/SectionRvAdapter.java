@@ -16,7 +16,7 @@ import java.util.Set;
  * description: ${cusor}
  */
 
-public abstract class SectionAdapter<T> extends MultiItemViewRvAdapter<T> {
+public abstract class SectionRvAdapter<T> extends MultiItemViewRvAdapter<T> {
     private static final int TYPE_SECTION = 0;
     private MultiItemTypeHelper<T>         mMultiItemTypeHelper;
     private SectionHelper                  mSectionHelper;
@@ -45,7 +45,7 @@ public abstract class SectionAdapter<T> extends MultiItemViewRvAdapter<T> {
         }
     };
 
-    public SectionAdapter(Context context, int layoutId, List datas, SectionHelper sectionHelper) {
+    public SectionRvAdapter(Context context, int layoutId, List datas, SectionHelper sectionHelper) {
         super(context, datas, null);
         mLayoutId = layoutId;
         mMultiItemTypeHelper = headerItemTypeHelper;

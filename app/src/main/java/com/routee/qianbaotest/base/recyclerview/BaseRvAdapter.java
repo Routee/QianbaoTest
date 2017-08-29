@@ -11,12 +11,12 @@ import java.util.List;
  * description: ${cusor}
  */
 
-public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseRvViewHolder> {
+public abstract class BaseRvAdapter<T> extends RecyclerView.Adapter<BaseRvViewHolder> {
     public Context mContext;
     public List<T> mDatas;
     public int     mLayoutId;
 
-    public BaseRecyclerViewAdapter(Context context, int layoutId, List<T> datas) {
+    public BaseRvAdapter(Context context, int layoutId, List<T> datas) {
         mContext = context;
         mLayoutId = layoutId;
         mDatas = datas;
