@@ -1,34 +1,20 @@
 package com.exocr.exocr;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Field;
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import java.lang.reflect.Field;
+
 import exocr.bankcard.EXBankCardInfo;
-import exocr.exocrengine.EXIDCardResult;
-import exocr.exocrengine.EXOCREngine;
 import exocr.exocrengine.DictManager;
-import exocr.idcard.IDCardEditActivity;
+import exocr.exocrengine.EXIDCardResult;
 
 public class MainActivity extends Activity{
 	private static final String TAG = MainActivity.class.getSimpleName();
@@ -185,7 +171,7 @@ public class MainActivity extends Activity{
 
 	// 读取身份证识别及最终结果
 	private void getIDCardResult(int resultCode, Intent data) {
-		if (data != null && data.hasExtra(exocr.idcard.IDCardEditActivity.ID_RECO_RESULT)) {
+		 if (data != null && data.hasExtra(exocr.idcard.IDCardEditActivity.ID_RECO_RESULT)) {
 			if (resultCode == exocr.idcard.IDCardEditActivity.ID_RETURN_RESULT) {
 				Bundle extras = data.getExtras();
 				if (extras != null) {

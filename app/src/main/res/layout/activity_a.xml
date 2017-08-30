@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,15 +7,35 @@
     android:layout_height="match_parent"
     tools:context="com.routee.qianbaotest.view.activity.ActivityA">
 
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/iv"
+        android:layout_height="100dp"/>
+
     <Button
+        android:id="@+id/bt_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
-        android:onClick="finish"
-        android:text="I am Fixed ActivityA"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:onClick="scanId"
+        android:text="Scan IDCard"
+        android:layout_below="@+id/tv"
+        android:layout_centerHorizontal="true"/>
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/bt_bank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="scanBank"
+        android:text="Scan BankCard"
+        android:textAllCaps="false"
+        android:layout_below="@id/bt_id"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
