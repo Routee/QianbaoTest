@@ -1,9 +1,9 @@
 package com.routee.qianbaotest.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-
 import com.routee.qianbaotest.R
 
 class ActivityA : AppCompatActivity() {
@@ -14,6 +14,6 @@ class ActivityA : AppCompatActivity() {
     }
 
     fun finish(view: View) {
-        finish()
+        startActivity(Intent(this, ActivityA::class.java))
     }
 }
