@@ -9,17 +9,18 @@ import com.routee.qianbaotest.base.recyclerview.helper.MultiItemTypeHelper
 import com.routee.qianbaotest.model.bean.MerchantListItemBean
 import com.routee.qianbaotest.widget.RouteeAppBarLayout
 
-class MainActivity : BaseActivity() {
+class CollapsinToolbarActivity : BaseActivity() {
     internal var mRTb: RouteeAppBarLayout? = null
     internal var mRvMain: RecyclerView? = null
     private var mList: MutableList<MerchantListItemBean.MerchantListBean>? = null
     private var mMAdapter: MultiItemViewRvAdapter<MerchantListItemBean.MerchantListBean>? = null
     override fun rootView(): Int {
-        return R.layout.activity_main
+        return R.layout.activity_collapsin
     }
 
     override fun initView() {
         mRTb = findViewById(R.id.r_Tb) as RouteeAppBarLayout?
+        mRTb!!.setTitle("主页")
         mRvMain = findViewById(R.id.rv_main) as RecyclerView
         mList = ArrayList()
         mRvMain!!.layoutManager = LinearLayoutManager(this)

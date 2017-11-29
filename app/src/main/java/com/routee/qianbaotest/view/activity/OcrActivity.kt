@@ -14,14 +14,14 @@ import exocr.exocrengine.DictManager
 import exocr.exocrengine.EXIDCardResult
 import exocr.idcard.CaptureActivity
 
-class ActivityA : AppCompatActivity() {
+class OcrActivity : AppCompatActivity() {
     private var SCAN_BANK_REQUESTCODE = 100
     private var SCAN_ID_REQUESTCODE = 101
     lateinit var mIv: ImageView
     lateinit var mTv: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_a)
+        setContentView(R.layout.activity_ocr)
         initView()
         DictManager.InitDict(this)
     }

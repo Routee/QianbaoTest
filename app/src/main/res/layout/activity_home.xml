@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical"
+    tools:context="com.routee.qianbaotest.view.activity.HomeActivity">
+
+    <Button
+        android:id="@+id/bt_collapsing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x20"
+        android:text="collapsing_tool_bar"/>
+
+    <Button
+        android:id="@+id/bt_ocr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x20"
+        android:text="ocr"/>
+
+    <Button
+        android:id="@+id/bt_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x20"
+        android:text="pdf_view"/>
+
+    <Button
+        android:id="@+id/bt_two_level_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x20"
+        android:text="two_level_pulldown"/>
+
+</LinearLayout>
