@@ -6,6 +6,10 @@
     <color name="colorPrimaryDark">#448fed</color>
     <!--checkBox,cusor,seekBar等颜色-->
     <color name="colorAccent">#5ca15c</color>
+
+    <color name="bg">#f1f1f1</color>
+    <color name="stroke">#9f9f9f</color>
+    <color name="text">#4b4b4b</color>
     <!--<color name="colorControlHighlight">#44ffffff</color>-->
     <!--1.colorPrimary 应用的主要色调，actionBar默认使用该颜色，Toolbar导航栏的底色-->
     <!--2.colorPrimaryDark 应用的主要暗色调，statusBarColor默认使用该颜色-->

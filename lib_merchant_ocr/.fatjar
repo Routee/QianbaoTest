@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Thu Sep 01 11:31:33 CST 2016
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=EXOCR_Android_ID_BANK_fat.jar
+manifest.mergeall=true
+manifest.mainclass=
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=
+includes=

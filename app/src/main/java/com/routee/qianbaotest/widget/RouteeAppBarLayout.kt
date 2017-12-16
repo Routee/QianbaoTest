@@ -1,15 +1,11 @@
 package com.routee.qianbaotest.widget
 
 import android.content.Context
-import android.content.res.TypedArray
-import android.graphics.drawable.Drawable
 import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageView
-
 import com.routee.qianbaotest.R
 
 
@@ -48,4 +44,9 @@ class RouteeAppBarLayout : AppBarLayout {
             mIvBg!!.background = drawable
         }
     }
+
+    public fun setTitle(title: String) {
+        mTb!!.setTitle(title)
+    }
+
 }

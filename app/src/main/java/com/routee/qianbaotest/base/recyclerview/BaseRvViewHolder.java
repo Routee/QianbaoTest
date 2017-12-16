@@ -38,8 +38,7 @@ public class BaseRvViewHolder<T> extends RecyclerView.ViewHolder {
     }
 
     public static BaseRvViewHolder createViewHolder(Context context, ViewGroup parent, int layoutId) {
-        View itemView = LayoutInflater.from(context).inflate(layoutId, parent,
-                false);
+        View itemView = LayoutInflater.from(context).inflate(layoutId, parent, false);
         BaseRvViewHolder holder = new BaseRvViewHolder(context, itemView);
         return holder;
     }
