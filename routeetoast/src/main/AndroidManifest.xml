@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         
-        <service android:name="com.routee.routeetoast.RocketService"></service>
+        <service android:name="com.routee.routeetoast.ToastService"></service>
         <activity android:name="com.routee.routeetoast.SmokeActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
     </application>

@@ -15,12 +15,12 @@ public class MainActivity extends Activity {
 
 	public void start(View v){
 		//开启火箭服务
-		startService(new Intent(MainActivity.this,RocketService.class));
+		startService(new Intent(MainActivity.this,ToastService.class));
 		finish();
 	}
 	public void stop(View v){
 		//关闭火箭服务
-		stopService(new Intent(MainActivity.this,RocketService.class));
+		stopService(new Intent(MainActivity.this,ToastService.class));
 	}
 	
 }

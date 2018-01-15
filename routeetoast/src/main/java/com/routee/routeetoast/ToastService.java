@@ -4,9 +4,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-public class RocketService extends Service {
+public class ToastService extends Service {
 
-	private RocketToast rocketToast;
+	private RouteeToast rocketToast;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -18,7 +18,7 @@ public class RocketService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		System.out.println("火箭服务打开了");
-		rocketToast = new RocketToast(this);
+		rocketToast = new RouteeToast(this);
 		
 		rocketToast.showRocketToast();
 	}
