@@ -1,1 +1,1 @@
-include ':app', ':sample', ':baidutts','Tank-master', ':base-adapter-library', ':baseadapter-recyclerview', ':lib_merchant_ocr','routeetoast'
+include ':app', ':sample', ':baidutts', ':lottietest','Tank-master', ':base-adapter-library', ':baseadapter-recyclerview', ':lib_merchant_ocr','routeetoast'

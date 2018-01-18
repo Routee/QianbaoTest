@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#6e6e"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.example.lottietest.MainActivity">
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="300dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:onClick="start"
+        android:text="暂停/播放"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:lottie_autoPlay="false"
+        app:lottie_fileName="data.json"
+        app:lottie_loop="false"/>
+
+</LinearLayout>
