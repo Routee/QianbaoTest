@@ -51,6 +51,8 @@
         </activity>
         <activity android:name=".view.activity.TwoLevelPulldownActivity">
         </activity>
+        <activity android:name=".view.activity.TestActivity">
+        </activity>
     </application>
 
 </manifest>

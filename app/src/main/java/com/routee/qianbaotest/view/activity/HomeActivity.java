@@ -14,6 +14,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private Button mBtPdf;
     private Button mBtTwoLevelPulldown;
     private Intent mIntent;
+    private Button mBtTest;
 
     @Override
     public int rootView() {
@@ -26,10 +27,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mBtOcr = (Button) findViewById(R.id.bt_ocr);
         mBtPdf = (Button) findViewById(R.id.bt_pdf);
         mBtTwoLevelPulldown = (Button) findViewById(R.id.bt_two_level_refresh_layout);
+        mBtTest = (Button) findViewById(R.id.bt_test);
         mBtCollapsing.setOnClickListener(this);
         mBtOcr.setOnClickListener(this);
         mBtPdf.setOnClickListener(this);
         mBtTwoLevelPulldown.setOnClickListener(this);
+        mBtTest.setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +52,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_two_level_refresh_layout:
                 mIntent = new Intent(this, TwoLevelPulldownActivity.class);
+                startActivity(mIntent);
+                break;
+            case R.id.bt_test:
+                mIntent = new Intent(this, TestActivity.class);
                 startActivity(mIntent);
                 break;
             default:

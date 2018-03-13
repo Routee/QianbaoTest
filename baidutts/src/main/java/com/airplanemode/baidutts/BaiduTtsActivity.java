@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.baidu.tts.client.SpeechSynthesizer;
 import com.baidu.tts.client.TtsMode;
 
-public class MainActivity extends AppCompatActivity {
+public class BaiduTtsActivity extends AppCompatActivity {
 
     private EditText          mEt;
     private SpeechSynthesizer mSpeechSynthesizer;
