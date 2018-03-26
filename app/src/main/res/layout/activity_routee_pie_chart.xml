@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.routee.qianbaotest.view.activity.RouteePieChartActivity">
+
+    <com.routee.qianbaotest.widget.RouteePieChart
+        android:id="@+id/rpc"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:background="#fff"
+        app:width="50"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:onClick="addUnit"
+        android:src="@android:color/holo_red_light"/>
+
+    <com.routee.qianbaotest.widget.RouteeFormView
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:layerType="software"
+        app:base_stroke_color="#d0d0d0"
+        app:base_stroke_width="2"/>
+</LinearLayout>

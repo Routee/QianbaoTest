@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="min_size" format="integer"/>
     <declare-styleable name="RouteeAppBarLayout">
         <attr name="image_bg" format="reference|color"/>
         <attr name="fitsSystemWindows" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="RouteePieChart">
+        <attr name="width" format="integer"/>
+        <attr name="min_size"/>
+    </declare-styleable>
+
+    <declare-styleable name="RouteeFormView">
+        <attr name="min_size"/>
+        <attr name="base_stroke_width" format="integer"/>
+        <attr name="base_stroke_color" format="color"/>
+        <attr name="base_text_size" format="integer"/>
+        <attr name="text_margin_y" format="integer"/>
+        <attr name="text_margin_x" format="integer"/>
     </declare-styleable>
 </resources>

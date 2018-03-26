@@ -43,15 +43,19 @@
         <activity android:name=".view.activity.PdfViewActivity">
         </activity>
         <activity android:name=".view.activity.HomeActivity">
+        </activity>
+        <activity android:name=".view.activity.TwoLevelPulldownActivity">
+        </activity>
+        <activity android:name=".view.activity.TestActivity">
+        </activity>
+        <activity android:name=".view.activity.RouteePieChartActivity">
+        </activity>
+        <activity android:name=".view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>
-        <activity android:name=".view.activity.TwoLevelPulldownActivity">
-        </activity>
-        <activity android:name=".view.activity.TestActivity">
         </activity>
     </application>
 
