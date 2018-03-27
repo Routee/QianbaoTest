@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -132,29 +134,30 @@ public class RouteeFormView extends View {
     }
 
     private void initData() {
+        List<Units> l2 = new ArrayList<>();
+        l2.add(new Units(100, "一一"));
+        l2.add(new Units(243, "二二"));
+        l2.add(new Units(314, "三三"));
+        l2.add(new Units(330, "四四"));
+        l2.add(new Units(522, "五五"));
+        l2.add(new Units(600, "六六"));
+        l2.add(new Units(620, "七七"));
+        l2.add(new Units(733, "八八"));
+        l2.add(new Units(741, "九九"));
+        mDatas.put(Color.GREEN, l2);
+
         List<Units> list = new ArrayList<>();
         list.add(new Units(10, "一一"));
         list.add(new Units(43, "二二"));
         list.add(new Units(64, "三三"));
-        list.add(new Units(30, "四四"));
-        list.add(new Units(52, "五五"));
-        list.add(new Units(100, "六六"));
-        list.add(new Units(120, "七七"));
-        list.add(new Units(23, "八八"));
-        list.add(new Units(14, "九九"));
+        list.add(new Units(130, "四四"));
+        list.add(new Units(152, "五五"));
+        list.add(new Units(200, "六六"));
+        list.add(new Units(220, "七七"));
+        list.add(new Units(223, "八八"));
+        list.add(new Units(314, "九九"));
         mDatas.put(Color.RED, list);
 
-        List<Units> l2 = new ArrayList<>();
-        l2.add(new Units(100, "一一"));
-        l2.add(new Units(243, "二二"));
-        l2.add(new Units(614, "三三"));
-        l2.add(new Units(330, "四四"));
-        l2.add(new Units(522, "五五"));
-        l2.add(new Units(100, "六六"));
-        l2.add(new Units(120, "七七"));
-        l2.add(new Units(233, "八八"));
-        l2.add(new Units(141, "九九"));
-        mDatas.put(Color.GREEN, l2);
 
         List list1 = new ArrayList();
         list1.add(new TextUnit(Color.parseColor("#d0d0d0"), "12:00-13:00"));
@@ -270,9 +273,26 @@ public class RouteeFormView extends View {
                     path.lineTo(o.x, o.y);
                 }
             }
+
             mPaint.setColor(color);
             mPaint.setStyle(Paint.Style.STROKE);
             canvas.drawPath(path, mPaint);
+            path.lineTo(((Point) list.get(list.size() - 1)).x, mFormHeight + mMaxYTextHeight);
+            path.lineTo(mMaxYTextWidth + mTextMarginX, mFormHeight + mMaxYTextHeight);
+            path.lineTo(((Point) list.get(0)).x, ((Point) list.get(0)).y);
+
+            mPaint.setStyle(Paint.Style.FILL);
+            mPaint.setColor(Color.WHITE);
+            canvas.drawPath(path, mPaint);
+
+            Shader shder = new LinearGradient(getWidth() / 2, 0, getWidth() / 2, getHeight()
+                                                     , color & Color.parseColor("#ddffffff")
+                                                     , color & Color.parseColor("#22ffffff"), Shader.TileMode.CLAMP);
+            mPaint.setShader(shder);
+            mPaint.setStyle(Paint.Style.FILL);
+            mPaint.setColor(color);
+            canvas.drawPath(path, mPaint);
+            mPaint.setShader(null);
         }
     }
 
