@@ -8,7 +8,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.routee.qianbaotest.R;
 import com.routee.qianbaotest.utils.ScreenUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -45,37 +48,59 @@ public class RouteeFormView extends View {
         }
     }
 
+    public static class TextUnit {
+        int    color;
+        String text;
+
+        public TextUnit(int color, String text) {
+            this.color = color;
+            this.text = text;
+        }
+    }
+
+    public interface DataChangeListener {
+        void dataChanged(int color, int position);
+    }
+
     private int mMinSize;
-    private Map<Integer, List<Units>> mDatas      = new HashMap();  //需要展示的数据
-    private Map<Integer, List<Point>> mDataPoints = new HashMap();  //需要展示的点
-    private Map<Integer, List<Rect>>  mDataRects  = new HashMap();  //需要展示的点的附近的坐标范围
-    private int   mBaseColor;                                       //基础线条颜色
-    private Paint mPaint;                                           //画笔
-    private int   mBaseStrokeWidth;                                 //基础线条粗细
-    private int   mUsefulY;                                         //Y轴数值有效值
-    private int   mMinUsefulY;                                      //Y轴数值最小值
-    private int   mMaxUsefulY;                                      //Y轴数值最大值
-    private int   mYDataSpacing;                                    //Y轴数值间隔大小
-    private int   mBaseTextSize;                                    //文字大小
-    private int   mMaxXTextWidth;                                   //X轴坐标值最大文字宽度
-    private int   mMaxXTextHeight;                                  //X轴坐标值最大文字高度
-    private int   mMaxYTextWidth;                                   //Y轴坐标值最大文字宽度
-    private int   mMaxYTextHeight;                                  //Y轴坐标值最大文字高度
-    private int   mTextMarginX;                                     //X方向文字与表格间距
-    private int   mTextMarginY;                                     //Y方向文字与表格间距
-    private List<String> mYTexts = new ArrayList<>();               //Y轴坐标值集合
-    private List<String> mXTexts = new ArrayList<>();               //X轴坐标值集合
-    private float mFormWidth;                                     //表格有效宽度（px值）
-    private float mFormHeight;                                    //表格有效高度（px值）
-    private int   mXSpacingCount;                                 //X轴坐标值元素的间隔个数
-    private int   mLineSpacingCount;                              //Y轴坐标线的间隔个数
-    private int   mLineSpacingCountRemainer;                      //Y轴坐标线的首个间隔个数
-    private int   mMaxYValue;                                     //Y轴最大值
-    private int   mMinYValue;                                     //Y轴最小值
-    private float mXPosition;                                     //event事件X轴位置
-    private float mYPosition;                                     //event事件Y轴位置
-    //    private boolean mIsTouch;                                       //是否有触摸事件
-    private Rect  mPreRect;                                       //记录上一次选中点的范围
+    private Map<Integer, List<Units>> mDatas      = new HashMap();          //需要展示的数据
+    private Map<Integer, List<Point>> mDataPoints = new HashMap();          //需要展示的点
+    private Map<Integer, List<Rect>>  mDataRects  = new HashMap();          //需要展示的点的附近的坐标范围
+    private List<List<TextUnit>>      mDataTexts  = new ArrayList<>();      //弹出提示框要展示的文字
+    private int   mBaseColor;                                               //基础线条颜色
+    private Paint mPaint;                                                   //画笔
+    private int   mBaseStrokeWidth;                                         //基础线条粗细
+    private int   mUsefulY;                                                 //Y轴数值有效值
+    private int   mMinUsefulY;                                              //Y轴数值最小值
+    private int   mMaxUsefulY;                                              //Y轴数值最大值
+    private int   mYDataSpacing;                                            //Y轴数值间隔大小
+    private int   mBaseTextSize;                                            //文字大小
+    private int   mHelpTextSize;                                            //弹出提示框文字大小
+    private int   mMaxXTextWidth;                                           //X轴坐标值最大文字宽度
+    private int   mMaxXTextHeight;                                          //X轴坐标值最大文字高度
+    private int   mMaxYTextWidth;                                           //Y轴坐标值最大文字宽度
+    private int   mMaxYTextHeight;                                          //Y轴坐标值最大文字高度
+    private int   mMaxHelpTextWidth;                                        //弹出框提示文字宽度
+    private int   mMaxHelpTextHeight;                                       //弹出框提示文字高度
+    private int   mTextMarginX;                                             //X方向文字与表格间距
+    private int   mTextMarginY;                                             //Y方向文字与表格间距
+    private List<String> mYTexts = new ArrayList<>();                       //Y轴坐标值集合
+    private List<String> mXTexts = new ArrayList<>();                       //X轴坐标值集合
+    private float              mFormWidth;                                  //表格有效宽度（px值）
+    private float              mFormHeight;                                 //表格有效高度（px值）
+    private int                mXSpacingCount;                              //X轴坐标值元素的间隔个数
+    private int                mLineSpacingCount;                           //Y轴坐标线的间隔个数
+    private int                mLineSpacingCountRemainer;                   //Y轴坐标线的首个间隔个数
+    private int                mMaxYValue;                                  //Y轴最大值
+    private int                mMinYValue;                                  //Y轴最小值
+    private float              mXPosition;                                  //event事件X轴位置
+    private float              mYPosition;                                  //event事件Y轴位置
+    private Rect               mPreRect;                                    //记录上一次选中点的范围
+    private DataChangeListener mListener;                                   //数据变化监听listener
+    private long               mDownEventMills;                             //手指按下时时间
+    private long               mUpEventMills;                               //手指离开时间
+    private int                mHelpTextMargin;                             //弹出提示框Margin
+    private int                mHelpLineColor;                              //辅助线颜色
 
     public RouteeFormView(Context context) {
         this(context, null);
@@ -96,15 +121,19 @@ public class RouteeFormView extends View {
         mBaseColor = a.getColor(R.styleable.RouteeFormView_base_stroke_color, Color.parseColor("#d0d0d0"));
         mBaseStrokeWidth = a.getInteger(R.styleable.RouteeFormView_base_stroke_width, 1);
         mBaseTextSize = a.getInteger(R.styleable.RouteeFormView_base_text_size, 12);
+        mHelpTextSize = a.getInteger(R.styleable.RouteeFormView_help_text_size, 14);
+        mHelpTextMargin = a.getInteger(R.styleable.RouteeFormView_help_text_margin, 8);
         mTextMarginX = ScreenUtils.dpToPxInt(getContext(), a.getInteger(R.styleable.RouteeFormView_text_margin_x, 4));
         mTextMarginY = ScreenUtils.dpToPxInt(getContext(), a.getInteger(R.styleable.RouteeFormView_text_margin_y, 4));
         a.recycle();
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
         initData();
     }
 
     private void initData() {
         List<Units> list = new ArrayList<>();
-        list.add(new Units(80, "一一"));
+        list.add(new Units(10, "一一"));
         list.add(new Units(43, "二二"));
         list.add(new Units(64, "三三"));
         list.add(new Units(30, "四四"));
@@ -114,6 +143,38 @@ public class RouteeFormView extends View {
         list.add(new Units(23, "八八"));
         list.add(new Units(14, "九九"));
         mDatas.put(Color.RED, list);
+
+        List<Units> l2 = new ArrayList<>();
+        l2.add(new Units(100, "一一"));
+        l2.add(new Units(243, "二二"));
+        l2.add(new Units(614, "三三"));
+        l2.add(new Units(330, "四四"));
+        l2.add(new Units(522, "五五"));
+        l2.add(new Units(100, "六六"));
+        l2.add(new Units(120, "七七"));
+        l2.add(new Units(233, "八八"));
+        l2.add(new Units(141, "九九"));
+        mDatas.put(Color.GREEN, l2);
+
+        List list1 = new ArrayList();
+        list1.add(new TextUnit(Color.parseColor("#d0d0d0"), "12:00-13:00"));
+
+        List list2 = new ArrayList();
+        list2.add(new TextUnit(Color.parseColor("#999999"), "收银：8,8000"));
+        list2.add(new TextUnit(Color.parseColor("#d0d0d0"), "元"));
+
+        List list3 = new ArrayList();
+        list3.add(new TextUnit(Color.parseColor("#999999"), "消费：6,231"));
+        list3.add(new TextUnit(Color.parseColor("#d0d0d0"), "元"));
+
+        List list4 = new ArrayList();
+        list4.add(new TextUnit(Color.parseColor("#999999"), "笔数：45"));
+        list4.add(new TextUnit(Color.parseColor("#d0d0d0"), "笔"));
+
+        mDataTexts.add(list1);
+        mDataTexts.add(list2);
+        mDataTexts.add(list3);
+        mDataTexts.add(list4);
     }
 
     @Override
@@ -155,11 +216,10 @@ public class RouteeFormView extends View {
     private void drawText(Canvas canvas) {
         if (mPaint == null) {
             mPaint = new Paint();
-            mPaint.setStyle(Paint.Style.FILL);
-            mPaint.setAntiAlias(true);
         }
+        mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(mBaseColor);
-        mPaint.setTextSize(ScreenUtils.dpToPx(getContext().getApplicationContext(), mBaseTextSize));
+        mPaint.setTextSize(ScreenUtils.dpToPx(getContext(), mBaseTextSize));
         Rect bounds = new Rect();
         for (int i = 0; i < mYTexts.size(); i++) {
             mPaint.getTextBounds(mYTexts.get(i), 0, mYTexts.get(i).length(), bounds);
@@ -181,9 +241,8 @@ public class RouteeFormView extends View {
     private void drawLines(Canvas canvas) {
         if (mPaint == null) {
             mPaint = new Paint();
-            mPaint.setStyle(Paint.Style.FILL);
-            mPaint.setAntiAlias(true);
         }
+        mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setColor(mBaseColor);
         mPaint.setStrokeWidth(mBaseStrokeWidth);
         for (int i = 0; i < mYTexts.size(); i += mLineSpacingCount) {
@@ -225,19 +284,29 @@ public class RouteeFormView extends View {
     private void drawHelpLine(Canvas canvas) {
         Iterator<Integer> it = mDataRects.keySet().iterator();
         int color = mBaseColor;
-        while (it.hasNext()) {
+        boolean find = false;
+        while (it.hasNext() && !find) {
             color = it.next();
+            android.util.Log.e("xxxxxx", "color = " + color);
             List<Rect> rects = mDataRects.get(color);
-            for (Rect rect : rects) {
+            for (int i = 0; i < rects.size(); i++) {
+                Rect rect = rects.get(i);
                 if (rect.contains((int) mXPosition, (int) mYPosition)) {
                     mPreRect = new Rect(rect.centerX() - 4, rect.centerY() - 4, rect.centerX() + 4, rect.centerY() + 4);
+                    mHelpLineColor = color;
+                    find = true;
+                    if (mListener != null) {
+                        mListener.dataChanged(mHelpLineColor, i);
+                    }
                     break;
                 }
             }
         }
         if (mPreRect != null) {
             mPaint.setStyle(Paint.Style.STROKE);
-            mPaint.setColor(color);
+            mPaint.setStrokeWidth(mBaseStrokeWidth / 2 == 0 ? 1 : mBaseStrokeWidth / 2);
+            mPaint.setColor(mHelpLineColor);
+            android.util.Log.e("xxxxxx", "mPaintColor = " + color);
             canvas.drawLine(mPreRect.centerX(), 0, mPreRect.centerX(), mFormHeight + mMaxYTextHeight, mPaint);
             canvas.drawLine(mMaxYTextWidth + mTextMarginY, mPreRect.centerY(), getWidth() - mMaxXTextWidth / 2 + 1, mPreRect.centerY(), mPaint);
             canvas.drawCircle(mPreRect.centerX(), mPreRect.centerY(), 4, mPaint);
@@ -248,7 +317,90 @@ public class RouteeFormView extends View {
     }
 
     private void drawHelpText(Canvas canvas) {
+        if (!calcHelpTextSize()) {
+            return;
+        }
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.shape_bg_text_routee_form);
+        Rect rect = calcHelpRect();
+        if (rect == null) {
+            return;
+        }
+        drawable.setBounds(rect);
+        drawable.draw(canvas);
+        Rect bounds = new Rect();
+        int margin = ScreenUtils.dpToPxInt(getContext(), mHelpTextMargin);
+        int height = (mMaxHelpTextHeight - margin * 2 - (mDataTexts.size() - 1) * ScreenUtils.dpToPxInt(getContext(), 4)) / mDataTexts.size();
+        mPaint.setTextSize(ScreenUtils.dpToPx(getContext(), mHelpTextSize));
+        for (int i = 0; i < mDataTexts.size(); i++) {
+            int width = 0;
+            for (TextUnit unit : mDataTexts.get(i)) {
+                mPaint.setColor(unit.color);
+                mPaint.getTextBounds(unit.text, 0, unit.text.length(), bounds);
+                canvas.drawText(unit.text, rect.left + margin + width, rect.top + height + margin + i * (height + ScreenUtils.dpToPxInt(getContext(), 4)), mPaint);
+                width += bounds.width();
+            }
+        }
+    }
 
+    @Nullable
+    private Rect calcHelpRect() {
+        Rect rect = new Rect();
+        int margin = ScreenUtils.dpToPxInt(getContext(), mHelpTextMargin);
+        if (mPreRect == null) {
+            return null;
+        }
+        int x = mPreRect.centerX();
+        int y = mPreRect.centerY();
+        int l = 0;
+        int t = 0;
+        int r = 0;
+        int b = 0;
+        if (x >= mMaxHelpTextWidth + mMaxYTextWidth + mTextMarginY + margin) {
+            l = (int) (x - mMaxHelpTextWidth) - margin;
+            r = (int) x - margin;
+        } else {
+            l = (int) x + margin;
+            r = (int) (x + mMaxHelpTextWidth) + margin;
+        }
+        if (y >= mMaxHelpTextHeight + margin) {
+            t = (int) (y - mMaxHelpTextHeight - margin);
+            b = (int) y - margin;
+        } else if (getHeight() - y > mMaxHelpTextHeight + margin) {
+            t = (int) y + margin;
+            b = y + mMaxHelpTextHeight + margin;
+        } else {
+            t = getHeight() - mMaxHelpTextHeight;
+            b = getHeight();
+        }
+        rect.set(l, t, r, b);
+        return rect;
+    }
+
+    /**
+     * 计算弹出框文字大小
+     */
+    private boolean calcHelpTextSize() {
+        if (mDataTexts == null || mDataTexts.size() == 0) {
+            return false;
+        }
+        mMaxHelpTextWidth = 0;
+        mMaxHelpTextHeight = 0;
+        mPaint.setTextSize(ScreenUtils.dpToPx(getContext(), mHelpTextSize));
+        Rect bounds = new Rect();
+        for (List<TextUnit> list : mDataTexts) {
+            int length = 0;
+            int height = 0;
+            for (TextUnit unit : list) {
+                mPaint.getTextBounds(unit.text, 0, unit.text.length(), bounds);
+                length += bounds.width();
+                height = Math.max(height, bounds.height());
+            }
+            mMaxHelpTextWidth = Math.max(length, mMaxHelpTextWidth);
+            mMaxHelpTextHeight += height;
+        }
+        mMaxHelpTextWidth = mMaxHelpTextWidth + ScreenUtils.dpToPxInt(getContext(), 16);
+        mMaxHelpTextHeight = mMaxHelpTextHeight + (mDataTexts.size() - 1) * ScreenUtils.dpToPxInt(getContext(), 4) + ScreenUtils.dpToPxInt(getContext(), 16);
+        return true;
     }
 
     private void calc() {
@@ -361,7 +513,7 @@ public class RouteeFormView extends View {
                 xMax = unit.x.length() > xMax.length() ? unit.x : xMax;
             }
         }
-        mPaint.setTextSize(ScreenUtils.dpToPx(getContext().getApplicationContext(), mBaseTextSize));
+        mPaint.setTextSize(ScreenUtils.dpToPx(getContext(), mBaseTextSize));
         Rect bounds = new Rect();
         mPaint.getTextBounds(xMax, 0, xMax.length(), bounds);
         mMaxXTextHeight = bounds.height();
@@ -438,17 +590,39 @@ public class RouteeFormView extends View {
         mYPosition = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //                mIsTouch = true;
+                mDownEventMills = Calendar.getInstance().getTimeInMillis();
                 break;
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_UP:
-                //                mIsTouch = false;
+                mUpEventMills = Calendar.getInstance().getTimeInMillis();
                 break;
         }
-        //        if (mIsTouch) {
+        if (mUpEventMills - mDownEventMills < 100 && mUpEventMills > mDownEventMills) {
+            mPreRect = null;
+        }
         invalidate();
-        //        }
         return true;
+    }
+
+    /**
+     * 设置选中数据改变的接口回调
+     *
+     * @param listener
+     */
+    public void setHelpOnDataChangedListener(DataChangeListener listener) {
+        mListener = listener;
+    }
+
+    public void setHelpText(List<List<TextUnit>> list) {
+        mDataTexts.clear();
+        mDataTexts.addAll(list);
+    }
+
+    public void resetData(Map<Integer, List<Units>> map) {
+        this.mDatas.clear();
+        mDatas.putAll(map);
+        mPreRect = null;
+        invalidate();
     }
 }
