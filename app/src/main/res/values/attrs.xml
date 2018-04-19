@@ -20,5 +20,7 @@
         <attr name="help_text_margin" format="integer"/>
         <attr name="text_margin_y" format="integer"/>
         <attr name="text_margin_x" format="integer"/>
+        <attr name="point_touch_size" format="integer"/>
+        <attr name="point_size" format="integer"/>
     </declare-styleable>
 </resources>

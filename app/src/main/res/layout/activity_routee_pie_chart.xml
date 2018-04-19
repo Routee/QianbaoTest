@@ -22,6 +22,7 @@
         android:src="@android:color/holo_red_light"/>
 
     <com.routee.qianbaotest.widget.RouteeFormView
+        android:id="@+id/rfv"
         android:layout_width="match_parent"
         android:layout_height="210dp"
         android:layerType="software"

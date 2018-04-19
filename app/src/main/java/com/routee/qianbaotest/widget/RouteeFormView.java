@@ -22,8 +22,8 @@ import com.routee.qianbaotest.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,9 +65,9 @@ public class RouteeFormView extends View {
     }
 
     private int mMinSize;
-    private Map<Integer, List<Units>> mDatas      = new HashMap();          //需要展示的数据
-    private Map<Integer, List<Point>> mDataPoints = new HashMap();          //需要展示的点
-    private Map<Integer, List<Rect>>  mDataRects  = new HashMap();          //需要展示的点的附近的坐标范围
+    private Map<Integer, List<Units>> mDatas      = new LinkedHashMap<>();        //需要展示的数据
+    private Map<Integer, List<Point>> mDataPoints = new LinkedHashMap<>();        //需要展示的点
+    private Map<Integer, List<Rect>>  mDataRects  = new LinkedHashMap<>();        //需要展示的点的附近的坐标范围
     private List<List<TextUnit>>      mDataTexts  = new ArrayList<>();      //弹出提示框要展示的文字
     private int   mBaseColor;                                               //基础线条颜色
     private Paint mPaint;                                                   //画笔
@@ -103,6 +103,8 @@ public class RouteeFormView extends View {
     private long               mUpEventMills;                               //手指离开时间
     private int                mHelpTextMargin;                             //弹出提示框Margin
     private int                mHelpLineColor;                              //辅助线颜色
+    private int                mPointWidth;                                 //小圆圈点的大小
+    private int                mPointTouchWith;
 
     public RouteeFormView(Context context) {
         this(context, null);
@@ -127,6 +129,8 @@ public class RouteeFormView extends View {
         mHelpTextMargin = a.getInteger(R.styleable.RouteeFormView_help_text_margin, 8);
         mTextMarginX = ScreenUtils.dpToPxInt(getContext(), a.getInteger(R.styleable.RouteeFormView_text_margin_x, 4));
         mTextMarginY = ScreenUtils.dpToPxInt(getContext(), a.getInteger(R.styleable.RouteeFormView_text_margin_y, 4));
+        mPointWidth = ScreenUtils.dpToPxInt(getContext(), a.getInteger(R.styleable.RouteeFormView_point_size, 2));
+        mPointTouchWith = ScreenUtils.dpToPxInt(getContext(), a.getInteger(R.styleable.RouteeFormView_point_touch_size, 10));
         a.recycle();
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -144,7 +148,7 @@ public class RouteeFormView extends View {
         l2.add(new Units(620, "七七"));
         l2.add(new Units(733, "八八"));
         l2.add(new Units(741, "九九"));
-        mDatas.put(Color.GREEN, l2);
+        mDatas.put(Color.RED, l2);
 
         List<Units> list = new ArrayList<>();
         list.add(new Units(10, "一一"));
@@ -156,7 +160,7 @@ public class RouteeFormView extends View {
         list.add(new Units(220, "七七"));
         list.add(new Units(223, "八八"));
         list.add(new Units(314, "九九"));
-        mDatas.put(Color.RED, list);
+        mDatas.put(Color.GREEN, list);
 
 
         List list1 = new ArrayList();
@@ -195,6 +199,8 @@ public class RouteeFormView extends View {
         } else if (heightMeasureSpec == AT_MOST) {
             setMeasuredDimension(widthSpecSize, mMinSize);
         }
+        android.util.Log.e("xxxxxx", "RED = " + Color.parseColor("#FFB3B3"));
+        android.util.Log.e("xxxxxx", "GREEN = " + Color.parseColor("#B7DDFF"));
     }
 
     @Override
@@ -222,7 +228,7 @@ public class RouteeFormView extends View {
         }
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(mBaseColor);
-        mPaint.setTextSize(ScreenUtils.dpToPx(getContext(), mBaseTextSize));
+        mPaint.setTextSize(ScreenUtils.dpToPxInt(getContext(), mBaseTextSize));
         Rect bounds = new Rect();
         for (int i = 0; i < mYTexts.size(); i++) {
             mPaint.getTextBounds(mYTexts.get(i), 0, mYTexts.get(i).length(), bounds);
@@ -230,8 +236,8 @@ public class RouteeFormView extends View {
         }
         for (int i = 0; i < (mXTexts.size() - 1) / mXSpacingCount + 1; i++) {
             mPaint.getTextBounds(mXTexts.get(i), 0, mXTexts.get(i).length(), bounds);
-            float x = mMaxYTextWidth + mTextMarginX - bounds.width() / 2 + i * mXSpacingCount * mFormWidth / (mXTexts.size() - 1);
-            float y = mFormHeight + mMaxXTextHeight + mTextMarginY + mMaxYTextHeight - 1;
+            float x = mMaxYTextWidth + mTextMarginY - bounds.width() / 2 + i * mXSpacingCount * mFormWidth / (mXTexts.size() - 1);
+            float y = mFormHeight + mMaxXTextHeight + mTextMarginX + mMaxYTextHeight - 1;
             canvas.drawText(mXTexts.get(i * mXSpacingCount), x, y, mPaint);
         }
     }
@@ -286,8 +292,8 @@ public class RouteeFormView extends View {
             canvas.drawPath(path, mPaint);
 
             Shader shder = new LinearGradient(getWidth() / 2, 0, getWidth() / 2, getHeight()
-                                                     , color & Color.parseColor("#ddffffff")
-                                                     , color & Color.parseColor("#22ffffff"), Shader.TileMode.CLAMP);
+                                                     , color & Color.parseColor("#44ffffff")
+                                                     , color & Color.parseColor("#11ffffff"), Shader.TileMode.CLAMP);
             mPaint.setShader(shder);
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setColor(color);
@@ -312,7 +318,7 @@ public class RouteeFormView extends View {
             for (int i = 0; i < rects.size(); i++) {
                 Rect rect = rects.get(i);
                 if (rect.contains((int) mXPosition, (int) mYPosition)) {
-                    mPreRect = new Rect(rect.centerX() - 4, rect.centerY() - 4, rect.centerX() + 4, rect.centerY() + 4);
+                    mPreRect = new Rect(rect.centerX() - mPointWidth, rect.centerY() - mPointWidth, rect.centerX() + mPointWidth, rect.centerY() + mPointWidth);
                     mHelpLineColor = color;
                     find = true;
                     if (mListener != null) {
@@ -350,7 +356,7 @@ public class RouteeFormView extends View {
         Rect bounds = new Rect();
         int margin = ScreenUtils.dpToPxInt(getContext(), mHelpTextMargin);
         int height = (mMaxHelpTextHeight - margin * 2 - (mDataTexts.size() - 1) * ScreenUtils.dpToPxInt(getContext(), 4)) / mDataTexts.size();
-        mPaint.setTextSize(ScreenUtils.dpToPx(getContext(), mHelpTextSize));
+        mPaint.setTextSize(ScreenUtils.dpToPxInt(getContext(), mHelpTextSize));
         for (int i = 0; i < mDataTexts.size(); i++) {
             int width = 0;
             for (TextUnit unit : mDataTexts.get(i)) {
@@ -405,7 +411,7 @@ public class RouteeFormView extends View {
         }
         mMaxHelpTextWidth = 0;
         mMaxHelpTextHeight = 0;
-        mPaint.setTextSize(ScreenUtils.dpToPx(getContext(), mHelpTextSize));
+        mPaint.setTextSize(ScreenUtils.dpToPxInt(getContext(), mHelpTextSize));
         Rect bounds = new Rect();
         for (List<TextUnit> list : mDataTexts) {
             int length = 0;
@@ -464,12 +470,12 @@ public class RouteeFormView extends View {
         }
         int min = 0;
         for (Integer color : mDatas.keySet()) {
-            for (Units units : mDatas.get(color)) {
-                if (min == 0) {
-                    min = units.y;
-                    continue;
+            List<Units> list = mDatas.get(color);
+            for (int i = 0; i < list.size(); i++) {
+                if (i == 0) {
+                    min = list.get(i).y;
                 }
-                min = Math.min(min, units.y);
+                min = Math.min(min, list.get(i).y);
             }
         }
         mMinUsefulY = min;
@@ -480,14 +486,22 @@ public class RouteeFormView extends View {
      */
     private void calcYSpacing() {
         mUsefulY = mMaxUsefulY - mMinUsefulY;
+        if (mUsefulY == 0) {
+            mMaxUsefulY = mMinUsefulY + 80;
+            mUsefulY = 80;
+        }
         int minSpacing = mUsefulY / 6;
         if (minSpacing == 0) {
             int w = (mMaxUsefulY + "").length();
             int spacing = w / 10;
             if (spacing != 0) {
                 mYDataSpacing = spacing;
-            } else {
+            } else if (mMaxUsefulY == 0) {
                 mYDataSpacing = 20;
+            } else if (mMaxUsefulY == 1) {
+                mYDataSpacing = 1;
+            } else {
+                mYDataSpacing = 2;
             }
             return;
         }
@@ -508,7 +522,7 @@ public class RouteeFormView extends View {
     private void calcYTextList() {
         mYTexts = new ArrayList<>();
         int remainder = mMaxUsefulY % mYDataSpacing;
-        for (int i = mMaxUsefulY - remainder + mYDataSpacing; i >= mMinUsefulY - mYDataSpacing; i -= mYDataSpacing) {
+        for (int i = mMaxUsefulY - remainder + mYDataSpacing; i >= mMinUsefulY - mYDataSpacing && i >= 0; i -= mYDataSpacing) {
             mYTexts.add(i + "");
         }
         String maxY = mYTexts.get(0);
@@ -533,7 +547,7 @@ public class RouteeFormView extends View {
                 xMax = unit.x.length() > xMax.length() ? unit.x : xMax;
             }
         }
-        mPaint.setTextSize(ScreenUtils.dpToPx(getContext(), mBaseTextSize));
+        mPaint.setTextSize(ScreenUtils.dpToPxInt(getContext(), mBaseTextSize));
         Rect bounds = new Rect();
         mPaint.getTextBounds(xMax, 0, xMax.length(), bounds);
         mMaxXTextHeight = bounds.height();
@@ -551,7 +565,7 @@ public class RouteeFormView extends View {
      */
     private void calcFormSize() {
         mFormWidth = getWidth() - mTextMarginX - mMaxYTextWidth - mMaxXTextWidth / 2 - 1;
-        mFormHeight = getHeight() - mTextMarginY - mMaxXTextHeight - mMaxYTextWidth;
+        mFormHeight = getHeight() - mTextMarginY - mMaxXTextHeight - mMaxYTextHeight;
     }
 
     /**
@@ -564,12 +578,13 @@ public class RouteeFormView extends View {
         if (it.hasNext()) {
             Integer next = it.next();
             List<Units> units = mDatas.get(next);
-            while ((units.size() / mXSpacingCount + 1) * mMaxXTextWidth > mFormWidth) {
+            while ((units.size() / mXSpacingCount + 1) * mMaxXTextWidth > mFormWidth * 2 / 3) {
                 mXSpacingCount++;
             }
             for (int i = 0; i < units.size(); i++) {
                 mXTexts.add(units.get(i).x + "");
             }
+            return;
         }
     }
 
@@ -577,7 +592,10 @@ public class RouteeFormView extends View {
      * 计算基础线条
      */
     private void calcBaseLines() {
-        mLineSpacingCount = (mYTexts.size() - 1) * 2 / 5;
+        mLineSpacingCount = (mYTexts.size() - 1) / 2;
+        if (mLineSpacingCount == 0) {
+            mLineSpacingCount = 1;
+        }
         mLineSpacingCountRemainer = (mYTexts.size() - 1) % mLineSpacingCount;
     }
 
@@ -593,7 +611,7 @@ public class RouteeFormView extends View {
                 float x = i * mFormWidth / (size - 1) + mMaxYTextWidth + mTextMarginY;
                 float y = (mMaxYValue - units.get(i).y) * mFormHeight / (mMaxYValue - mMinYValue) + mMaxYTextHeight;
                 listPoint.add(new Point((int) x, (int) y));
-                listRect.add(new Rect((int) (x - 20), (int) (y - 20), (int) (x + 20), (int) (y + 20)));
+                listRect.add(new Rect((int) (x - mPointTouchWith), (int) (y - mPointTouchWith), (int) (x + mPointTouchWith), (int) (y + mPointTouchWith)));
             }
             mDataPoints.put(color, listPoint);
             mDataRects.put(color, listRect);
@@ -604,6 +622,7 @@ public class RouteeFormView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         int pointerCount = event.getPointerCount();
         if (pointerCount > 1) {
+            getParent().requestDisallowInterceptTouchEvent(false);
             return false;
         }
         mXPosition = event.getX();
@@ -617,10 +636,13 @@ public class RouteeFormView extends View {
             case MotionEvent.ACTION_UP:
                 mUpEventMills = Calendar.getInstance().getTimeInMillis();
                 break;
+            default:
+                break;
         }
         if (mUpEventMills - mDownEventMills < 100 && mUpEventMills > mDownEventMills) {
             mPreRect = null;
         }
+        getParent().requestDisallowInterceptTouchEvent(true);
         invalidate();
         return true;
     }
@@ -630,18 +652,34 @@ public class RouteeFormView extends View {
      *
      * @param listener
      */
-    public void setHelpOnDataChangedListener(DataChangeListener listener) {
+    public void setOnHelpDataChangedListener(DataChangeListener listener) {
         mListener = listener;
     }
 
+    /**
+     * 设置提示弹框内文字
+     *
+     * @param list
+     */
     public void setHelpText(List<List<TextUnit>> list) {
         mDataTexts.clear();
         mDataTexts.addAll(list);
     }
 
+    /**
+     * 重设数据，并绘制界面
+     *
+     * @param map
+     */
     public void resetData(Map<Integer, List<Units>> map) {
         this.mDatas.clear();
-        mDatas.putAll(map);
+        mDataPoints.clear();
+        mDataRects.clear();
+        Iterator<Integer> it = map.keySet().iterator();
+        while (it.hasNext()) {
+            Integer color = it.next();
+            mDatas.put(color, map.get(color));
+        }
         mPreRect = null;
         invalidate();
     }
