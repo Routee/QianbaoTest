@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <!-- 外部存储读权限，调试工具加载本地补丁需要 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
@@ -34,7 +35,7 @@
             android:value="ee229ddc4db707815973ffa34c59b9f8"/>
         <meta-data
             android:name="com.taobao.android.hotfix.RSASECRET"
-            android:value="MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCkuvvBKOWtlySxzjMIfusa7             XvEB5xhOoUEBTRkp/HwXML6w2jz6ziJV/RY1sB/yc67AvfqQYAIWCYJ7Qxv9RHkL3JrCj1ORmbIYDDxo6O4BAfKn             IWX9/oh7PC6ruCSZjz4bZs2o5rkNL3kRCUhuiyQEIFkbrE+ndPQyZrY2VcEpfnBJiDizf3cPH4BJV4P6DDxRTHUl             ymAa+HJ228whPDXB0l7kyJNdF1gMXsMKVSIB3IVNYmKGwWvS2D3igP50bDthLlPlu2EL4PBFY4yYXlJwOPPZo52U             YtP5N9ThxQp/Yixz+BwqjnuWbLtOycl5eBKqP5KmNhjCQtFssdlxKH7AgMBAAECggEAFYLNSUX76BUql4VjqKJaN             SP523la9F9d6056rwI3V7nlRDWsSN3YfibcI5W3gXhq5ITYtuBixbQtE3K/AwevlGqVuGCX7NbIqTXWbld+E5ODK             PQTheq94Rw9u0MG1FdBcvdtI09t9IrmmR5E8wiKtS1SmDjUMGcPt937uIF5GYQUI+RSWFIr5+Ire4eEYmLBkQphe             59XWGsknjmnxF7ri8nRQO3JQJSM30/freUWsm2A7qqjbVfv32ROo6UcIRLVkPvBOROnDnGEvDCnexeuZRElZJUV7             wjHM54EXoFj/HXqU0uovMFWCCiWbWlisPur9JVGctIVhbxSYlTKkVEbYQKBgQD+KP1Xj+rH2KAq3PfHqHk2gIGvF             yF43KxqYM/qKpGkCosBxsC7IuYPfNg7Ykm3cLdQI19P4MDZhRwHL3ufGNcCpa6uyjhj79gT4I4TQkneDeZLiBIz1             wauLaebJmaEbhC4BJXB7vpB2LslATpysBXk9g88nz1FXMhbNu1rvlru6QKBgQCl7EMpvut12RJDS9BCh4bKdxthi             TS/qdXuL5pTuZcrNu/VtqU6Z5Xb3KAshpzE4/mznlTBtXTRqqDXesRlDYWFL1PKmc3P0EVk0Vn2MG5uSAM0IuFpK             Bh7e/GGkZWCN7XPgPSZYQUFBa/TriWsypOWkvajGElvu1qW2dlA6HRjQwKBgQDeYQL5oESuw02w81IhcblNBLdze             WuiEoMROM/ydXik7UyfK0Xq9ygQmQ2hN+iEBq1+AtUcUOyr5hmV9+fUVqmZ+VmUOf+JAYwwKCRnmXKERekgYVh73             0JLGEs0Jy8/5AXg3LIj03NINdfZEvAO9R7TDLBcPIAhtoLfvHmT8iQiMQKBgB0tqD3+IiAuVUTaXzxj4vNV8M29O             DaAYmupmWUh3RCvb4vQu8vCjZsFeHF8FrOVN8M7k8Ig6/M3I2PhZgozT4i1YvHdDFGAWcO6AS0HJVRle5K+k49Pi             sakbDvy/CzTKTjdf6Y9ZomUj3AVTvDNCxlOrOrPiZKJiwu+MbN1bYpLAoGBAOngaXsdhduC5to2JKc6RuPKIsDbW             0K5ZGNHW6XY3rZ+6pPnnTWjCe3+Sw6bZ1iQ4/hnAth7d3y07D7H5i575CExceTljFWejfAx4kh4QPDQjp+8CE6eZ             8PCtCKRW5fwj+jSiH8i8AwgMHDbOrQZvZrydtERuSAsnXckUN6S9IDj"/>
+            android:value="MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCkuvvBKOWtlySxzjMIfusa7XvEB5xhOoUEBTRkp/HwXML6w2jz6ziJV/RY1sB/yc67AvfqQYAIWCYJ7Qxv9RHkL3JrCj1ORmbIYDDxo6O4BAfKnIWX9/oh7PC6ruCSZjz4bZs2o5rkNL3kRCUhuiyQEIFkbrE+ndPQyZrY2VcEpfnBJiDizf3cPH4BJV4P6DDxRTHUlymAa+HJ228whPDXB0l7kyJNdF1gMXsMKVSIB3IVNYmKGwWvS2D3igP50bDthLlPlu2EL4PBFY4yYXlJwOPPZo52UYtP5N9ThxQp/Yixz+BwqjnuWbLtOycl5eBKqP5KmNhjCQtFssdlxKH7AgMBAAECggEAFYLNSUX76BUql4VjqKJaNSP523la9F9d6056rwI3V7nlRDWsSN3YfibcI5W3gXhq5ITYtuBixbQtE3K/AwevlGqVuGCX7NbIqTXWbld+E5ODKPQTheq94Rw9u0MG1FdBcvdtI09t9IrmmR5E8wiKtS1SmDjUMGcPt937uIF5GYQUI+RSWFIr5+Ire4eEYmLBkQphe59XWGsknjmnxF7ri8nRQO3JQJSM30/freUWsm2A7qqjbVfv32ROo6UcIRLVkPvBOROnDnGEvDCnexeuZRElZJUV7wjHM54EXoFj/HXqU0uovMFWCCiWbWlisPur9JVGctIVhbxSYlTKkVEbYQKBgQD+KP1Xj+rH2KAq3PfHqHk2gIGvFyF43KxqYM/qKpGkCosBxsC7IuYPfNg7Ykm3cLdQI19P4MDZhRwHL3ufGNcCpa6uyjhj79gT4I4TQkneDeZLiBIz1wauLaebJmaEbhC4BJXB7vpB2LslATpysBXk9g88nz1FXMhbNu1rvlru6QKBgQCl7EMpvut12RJDS9BCh4bKdxthiTS/qdXuL5pTuZcrNu/VtqU6Z5Xb3KAshpzE4/mznlTBtXTRqqDXesRlDYWFL1PKmc3P0EVk0Vn2MG5uSAM0IuFpKBh7e/GGkZWCN7XPgPSZYQUFBa/TriWsypOWkvajGElvu1qW2dlA6HRjQwKBgQDeYQL5oESuw02w81IhcblNBLdzeWuiEoMROM/ydXik7UyfK0Xq9ygQmQ2hN+iEBq1+AtUcUOyr5hmV9+fUVqmZ+VmUOf+JAYwwKCRnmXKERekgYVh730JLGEs0Jy8/5AXg3LIj03NINdfZEvAO9R7TDLBcPIAhtoLfvHmT8iQiMQKBgB0tqD3+IiAuVUTaXzxj4vNV8M29ODaAYmupmWUh3RCvb4vQu8vCjZsFeHF8FrOVN8M7k8Ig6/M3I2PhZgozT4i1YvHdDFGAWcO6AS0HJVRle5K+k49PisakbDvy/CzTKTjdf6Y9ZomUj3AVTvDNCxlOrOrPiZKJiwu+MbN1bYpLAoGBAOngaXsdhduC5to2JKc6RuPKIsDbW0K5ZGNHW6XY3rZ+6pPnnTWjCe3+Sw6bZ1iQ4/hnAth7d3y07D7H5i575CExceTljFWejfAx4kh4QPDQjp+8CE6eZ8PCtCKRW5fwj+jSiH8i8AwgMHDbOrQZvZrydtERuSAsnXckUN6S9IDj"/>
 
         <activity android:name=".view.activity.CollapsinToolbarActivity">
         </activity>
@@ -52,6 +53,8 @@
         <activity android:name=".view.activity.TwoLevelPulldownActivity">
         </activity>
         <activity android:name=".view.activity.TestActivity">
+        </activity>
+        <activity android:name=".view.activity.ninepatchgame.NinePatchGameActivity">
         </activity>
     </application>
 

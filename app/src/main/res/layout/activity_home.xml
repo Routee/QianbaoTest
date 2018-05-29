@@ -43,5 +43,10 @@
         android:layout_margin="@dimen/x20"
         android:text="Test_activity"/>
 
-
+    <Button
+        android:id="@+id/bt_game"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x20"
+        android:text="Nine_Patch_Game"/>
 </LinearLayout>

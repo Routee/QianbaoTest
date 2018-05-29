@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.routee.qianbaotest.R;
 import com.routee.qianbaotest.base.BaseActivity;
+import com.routee.qianbaotest.view.activity.ninepatchgame.NinePatchGameActivity;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
@@ -15,6 +16,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private Button mBtTwoLevelPulldown;
     private Intent mIntent;
     private Button mBtTest;
+    private Button mBtGame;
 
     @Override
     public int rootView() {
@@ -33,6 +35,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mBtPdf.setOnClickListener(this);
         mBtTwoLevelPulldown.setOnClickListener(this);
         mBtTest.setOnClickListener(this);
+        mBtGame = (Button) findViewById(R.id.bt_game);
+        mBtGame.setOnClickListener(this);
     }
 
     @Override
@@ -56,6 +60,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_test:
                 mIntent = new Intent(this, TestActivity.class);
+                startActivity(mIntent);
+                break;
+            case R.id.bt_game:
+                mIntent = new Intent(this, NinePatchGameActivity.class);
                 startActivity(mIntent);
                 break;
             default:
